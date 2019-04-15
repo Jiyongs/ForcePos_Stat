@@ -26,6 +26,7 @@ public class PosDto {
 	private int statTotalPrice; // 매출합계
 	private int totalTax; // 부가세합계
 	private int customerCount; // 고객수
+	private String sellTime; //판매시간
 
 	public String getCompany() {
 		return company;
@@ -193,5 +194,13 @@ public class PosDto {
 
 	public void setCustomerCount(int customerCount) {
 		this.customerCount = customerCount;
+	}
+
+	public String getSellTime() {
+		return sellTime;
+	}
+
+	public void setSellTime(String sellTime) {
+		this.sellTime = sellTime;
 	}
 }

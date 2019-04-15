@@ -7,6 +7,8 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import com.kitri.pos.setting.ViewSetting;
+
 /*
 	ViewStatDay : 일별 통계 패널
 */
@@ -25,9 +27,7 @@ public class ViewStatDay extends JPanel {
 	DefaultTableModel tmodel;
 	
 	JRadioButton rdBtnTotalPrice;
-	JRadioButton rdBtnNetIncome;
-	JRadioButton rdBtnCash;
-	JRadioButton rdBtnCard;
+	JRadioButton rdBtnCustomerCount;
 
 	JPanel pShowGraph;
 	CardLayout graphCard = new CardLayout(); //그래프용 카드 레이아웃
@@ -98,7 +98,7 @@ public class ViewStatDay extends JPanel {
 		btnSearch = new JButton("조회");
 		btnSearch.setBounds(552, 0, 101, 37);
 		pSetSearch.add(btnSearch);
-		btnSearch.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		btnSearch.setFont(ViewSetting.sbtnFont);
 
 		// #테이블 스크롤 패널#
 		spShowTable = new JScrollPane();
@@ -133,43 +133,30 @@ public class ViewStatDay extends JPanel {
 
 		// #기본 패널#
 		// [라디오 버튼]
-		ButtonGroup bgp = new ButtonGroup(); // 버튼그룹 생성
+		ButtonGroup bgp = new ButtonGroup();
 
-		rdBtnCard = new JRadioButton("카드");
-		rdBtnCard.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
-		rdBtnCard.setBounds(1071, 128, 65, 23);
-		add(rdBtnCard);
-
-		rdBtnCash = new JRadioButton("현금");
-		rdBtnCash.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
-		rdBtnCash.setBounds(1002, 128, 65, 23);
-		add(rdBtnCash);
-
-		rdBtnNetIncome = new JRadioButton("순매출");
-		rdBtnNetIncome.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
-		rdBtnNetIncome.setBounds(913, 128, 85, 23);
-		add(rdBtnNetIncome);
 
 		rdBtnTotalPrice = new JRadioButton("매출합계");
 		rdBtnTotalPrice.setSelected(true);
 		rdBtnTotalPrice.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
-		rdBtnTotalPrice.setBounds(804, 128, 105, 23);
+		rdBtnTotalPrice.setBounds(915, 126, 118, 23);
 		add(rdBtnTotalPrice);
+
+		rdBtnCustomerCount = new JRadioButton("고객수");
+		rdBtnCustomerCount.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+		rdBtnCustomerCount.setBounds(1039, 126, 95, 23);
+		add(rdBtnCustomerCount);
 
 		// 버튼 그룹에 라디오버튼 등록
 		bgp.add(rdBtnTotalPrice);
-		bgp.add(rdBtnCash);
-		bgp.add(rdBtnNetIncome);
-		bgp.add(rdBtnCard);
+		bgp.add(rdBtnCustomerCount);
 
 		// #이벤트 등록#
 		vds = new ViewStatDayService(this);
 		btnSearch.addActionListener(vds);
 		
 		rdBtnTotalPrice.addItemListener(vds);
-		rdBtnNetIncome.addItemListener(vds);
-		rdBtnCash.addItemListener(vds);
-		rdBtnCard.addItemListener(vds);
+		rdBtnCustomerCount.addItemListener(vds);
 
 	}
 }

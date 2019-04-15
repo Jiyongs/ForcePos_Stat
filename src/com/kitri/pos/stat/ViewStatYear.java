@@ -52,6 +52,7 @@ public class ViewStatYear extends JPanel {
 		pSetSearch.add(lbShowDate);
 
 		btnSearch = new JButton("Á¶È¸");
+		btnSearch.setBorder(UIManager.getBorder("Button.border"));
 		btnSearch.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		btnSearch.setBounds(379, 0, 101, 37);
 		pSetSearch.add(btnSearch);

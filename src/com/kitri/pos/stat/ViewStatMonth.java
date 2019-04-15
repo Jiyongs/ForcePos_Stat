@@ -2,6 +2,9 @@ package com.kitri.pos.stat;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import com.kitri.pos.setting.ViewSetting;
+
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Vector;
@@ -63,7 +66,7 @@ public class ViewStatMonth extends JPanel {
 		pSetSearch.add(comboYear);
 
 		btnSearch = new JButton("Á¶È¸");
-		btnSearch.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		btnSearch.setFont(ViewSetting.sbtnFont);
 		btnSearch.setBounds(261, 0, 101, 37);
 		pSetSearch.add(btnSearch);
 		

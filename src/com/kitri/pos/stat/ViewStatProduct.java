@@ -7,6 +7,12 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import com.kitri.pos.setting.ViewSetting;
+
+import javax.swing.border.MatteBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+
 /*
 	ViewStatProduct : »óÇ°º° Åë°è ÆÐ³Î
 */
@@ -40,7 +46,7 @@ public class ViewStatProduct extends JPanel {
 		JLabel lbProductLevel = new JLabel("»óÇ°ºÐ·ù :");
 		lbProductLevel.setBounds(0, 0, 101, 37);
 		pSetSearch.add(lbProductLevel);
-		lbProductLevel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
+		lbProductLevel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 
 		// [ÄÞº¸¹Ú½º]
 		// ÄÞº¸¹Ú½º ¾ÈÀÇ °ª ¼³Á¤
@@ -61,15 +67,17 @@ public class ViewStatProduct extends JPanel {
 
 		// ÄÞº¸¹Ú½º ¼¼ÆÃ
 		comboMinorLevel = new JComboBox(MinorLevels);
+		comboMinorLevel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
 		comboMinorLevel.setBounds(103, 0, 170, 37);
 		pSetSearch.add(comboMinorLevel);
 
 		JLabel lbShowDate = new JLabel("Á¶È¸±â°£ :");
 		lbShowDate.setBounds(334, 0, 101, 37);
 		pSetSearch.add(lbShowDate);
-		lbShowDate.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
+		lbShowDate.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 
 		comboYear = new JComboBox(YearValues);
+		comboYear.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
 		comboYear.setBounds(432, 0, 114, 37);
 		pSetSearch.add(comboYear);
 
@@ -79,11 +87,12 @@ public class ViewStatProduct extends JPanel {
 		pSetSearch.add(label);
 
 		comboMonth = new JComboBox(MonthValues);
+		comboMonth.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
 		comboMonth.setBounds(570, 0, 114, 37);
 		pSetSearch.add(comboMonth);
 
 		btnSearch = new JButton("Á¶È¸");
-		btnSearch.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		btnSearch.setFont(ViewSetting.sbtnFont);
 		btnSearch.setBounds(698, 0, 101, 37);
 		pSetSearch.add(btnSearch);
 

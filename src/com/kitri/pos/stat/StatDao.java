@@ -150,7 +150,7 @@ public class StatDao {
 	//////////////////////////////// 기간별 통계 ////////////////////////////////
 	// <연도별 매출내역 select> 메소드
 	// : 년 입력받아 조회
-	
+
 	public Vector<PosDto> findYearSell(int startYear, int endYear) {
 		// 쿼리문 결과 (여러 행) 담을 PosDto 객체
 		Vector<PosDto> list = new Vector<PosDto>();
@@ -252,28 +252,26 @@ public class StatDao {
 	// <일별 매출내역 select> 메소드
 	// : 년, 월, 일 입력받아 조회
 	public PosDto findDaySell(String year, String month, String day) {
-	
+
 		// String으로 입력한 날짜를 '년월일' 합쳐서 int로 변환
 		int date = Integer.parseInt(year.concat(month).concat(day));
 		try {
 			// DB 연결
-			conn = DBManager.getConnection();    
+			conn = DBManager.getConnection();
 			posDto = new PosDto();
 			// 쿼리문 세팅
-			String query = "select h.hy as 매출일자, sum(h.htp) as 매출합계, sum(h.hb) as 부가세, sum(h.hcp) as 현금매출, sum(h.hcdp) as 카드매출, count(*) as 고객수\r\n" + 
-					"from (select total_price htp, to_char(sell_date, 'yyyymmdd') hy, total_price*0.1 hb, cash_price hcp, card_price hcdp\r\n" + 
-					"        from history\r\n" + 
-					"        where to_char(sell_date,'yyyymmdd')= to_date(?)) h\r\n" + 
-					"group by hy\r\n" + 
-					"order by hy";                              
+			String query = "select h.hy as 매출일자, sum(h.htp) as 매출합계, sum(h.hb) as 부가세, sum(h.hcp) as 현금매출, sum(h.hcdp) as 카드매출, count(*) as 고객수\r\n"
+					+ "from (select total_price htp, to_char(sell_date, 'yyyymmdd') hy, total_price*0.1 hb, cash_price hcp, card_price hcdp\r\n"
+					+ "        from history\r\n" + "        where to_char(sell_date,'yyyymmdd')= to_date(?)) h\r\n"
+					+ "group by hy\r\n" + "order by hy";
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, date);
-						
+
 			// 쿼리문 실행
-			rs = ps.executeQuery();                    
-			
+			rs = ps.executeQuery();
+
 			// 결과 저장
-			while(rs.next()) {					
+			while (rs.next()) {
 				posDto.setSellDate(Integer.toString(rs.getInt(1)));
 				posDto.setStatTotalPrice(rs.getInt(2));
 				posDto.setTotalTax(rs.getInt(3));
@@ -281,7 +279,7 @@ public class StatDao {
 				posDto.setCardPrice(rs.getInt(5));
 				posDto.setCustomerCount(rs.getInt(6));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -292,10 +290,63 @@ public class StatDao {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// 결과 리턴
 		return posDto;
 	}
+
+	// <조회한 일자의 시간대별 매출값 리턴> 메소드
+	// : 시간대별 그래프용
+	public Vector<PosDto> findDayTimeSell(String year, String month, String day) {
+
+		// 쿼리문 결과 (여러 행) 담을 PosDto 객체
+		Vector<PosDto> list = new Vector<PosDto>();
+
+		// String으로 입력한 날짜를 '년월일' 합쳐서 int로 변환
+		int date = Integer.parseInt(year.concat(month).concat(day));
+		try {
+			// DB 연결
+			conn = DBManager.getConnection();
+
+			// 쿼리문 세팅
+			String query = "select hour.h as 판매시간대, sum(hour.tp) as 매출합계, count(*) as 고객수\r\n"
+					+ "from (select price*sell_count tp, to_char(sell_date, 'hh24') h\r\n"
+					+ "      from history_detail\r\n" + "      where to_char(sell_date, 'yyyymmdd') = to_date(?)\r\n"
+					+ "      order by h\r\n" + "      ) hour\r\n" + "group by h";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, date);
+
+			// 쿼리문 실행
+			rs = ps.executeQuery();
+
+			// 결과 저장
+			while (rs.next()) {
+				posDto = new PosDto();
+
+				posDto.setSellTime(rs.getString(1).concat("시"));
+				posDto.setStatTotalPrice(rs.getInt(2));
+				posDto.setCustomerCount(rs.getInt(3));
+								
+				list.add(posDto);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB 연결 종료
+				DBManager.dbClose(rs, ps, conn);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// 결과 리턴
+		return list;
+
+	}
+
+	////////////////////////////////////// [static 메소드] /////////////////////////////////////////////
 	
 	// 테이블 행 모두 지우기 (화면단에서만)
 	public static void clearRows(int rowSize, DefaultTableModel dtm) {
@@ -305,5 +356,5 @@ public class StatDao {
 			}
 		}
 	}
-	
+
 }
